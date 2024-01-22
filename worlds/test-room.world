@@ -18,6 +18,38 @@
         <falloff>0</falloff>
       </spot>
     </light>
+    <actor name="walking_actor1">
+        <pose>5 5 1.0 0 0 0</pose>
+        <skin>
+            <filename>walk.dae</filename>
+            <scale>1.0</scale>
+        </skin>
+        <animation name="walking">
+            <filename>walk.dae</filename>
+            <scale>1.0</scale>
+            <interpolate_x>true</interpolate_x>
+        </animation>
+        <plugin name="pedestrian_plugin1" filename="libpedestrian_plugin.so">
+          <module>pedestrian</module>
+        </plugin>
+    </actor>
+    <!--
+    <actor name="walking_actor2">
+        <pose>5 5 1.0 0 0 0</pose>
+        <skin>
+            <filename>walk.dae</filename>
+            <scale>1.0</scale>
+        </skin>
+        <animation name="walking">
+            <filename>walk.dae</filename>
+            <scale>1.0</scale>
+            <interpolate_x>true</interpolate_x>
+        </animation>
+        <plugin name="pedestrian_plugin2" filename="libpedestrian_plugin.so">
+          <module>pedestrian</module>
+        </plugin>
+    </actor>
+    -->
     <model name='ground_plane'>
       <static>1</static>
       <link name='link'>
