@@ -1,6 +1,8 @@
 config:
   init_x: 0.0
   init_y: 0.0
+  init_z: 0.0
+  init_a: 0.0
 
 # check topics if the system outout unexpected topics
 checks:
@@ -19,19 +21,21 @@ tests:
     type: wait_ready
     timeout: 90
 
-- name: spawn an actor
-  action:
-    type: spawn_actor
-    x: 5
-    y: 0
-    a: 180
-    module: pedestrian.walk_straight
-    timeout: 30
-
 - name: go to initial position
   action:
     type: reset_position
     timeout: 90
+
+- name: spawn an actor
+  action:
+    type: spawn_actor
+    x: 5.0
+    y: 0.0
+    a: 180.0
+    module: pedestrian.walk_straight
+    params:
+      velocity: 0.5
+    timeout: 30
 
 - comment: 01. move towards a pedestrian
 - name: set a goal
