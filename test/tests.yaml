@@ -1,0 +1,54 @@
+config:
+  init_x: 0.0
+  init_y: 0.0
+
+# check topics if the system outout unexpected topics
+checks:
+- name: check if vibration is unknown
+  action:
+    type: check_topic_error
+    topic: /cabot/activity_log
+    topic_type: cabot_msgs/msg/Log
+    condition: "msg.category=='cabot/interface' and msg.text=='vibration' and msg.memo=='unknown'"
+
+# test cases
+tests:
+- comment: wait until the system is ready
+- name: check I am ready
+  action:
+    type: wait_ready
+    timeout: 90
+
+- name: spawn an actor
+  action:
+    type: spawn_actor
+    x: 5
+    y: 0
+    a: 180
+    module: pedestrian.walk_straight
+    timeout: 30
+
+- name: go to initial position
+  action:
+    type: reset_position
+    timeout: 90
+
+- comment: 01. move towards a pedestrian
+- name: set a goal
+  action:
+    type: pub_topic
+    topic: /cabot/event
+    topic_type: std_msgs/msg/String
+    message: "data: 'navigation;destination;EDITOR_node_1705948557561'"
+- name: wait the completion
+  action:
+    type: wait_topic
+    topic: /cabot/activity_log
+    topic_type: cabot_msgs/msg/Log
+    condition: "msg.category=='cabot/navigation' and msg.text=='completed'"
+    timeout: 60
+- comment: return to the initial position
+- name: go to initial position
+  action:
+    type: reset_position
+    timeout: 90
