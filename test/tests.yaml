@@ -19,23 +19,21 @@ tests:
 - name: check I am ready
   action:
     type: wait_ready
-    timeout: 90
 
 - name: go to initial position
   action:
     type: reset_position
-    timeout: 90
 
 - name: spawn an actor
   action:
     type: spawn_actor
+    name: actor1
     x: 5.0
     y: 0.0
     a: 180.0
     module: pedestrian.walk_straight
     params:
       velocity: 0.5
-    timeout: 30
 
 - comment: 01. move towards a pedestrian
 - name: set a goal
@@ -50,9 +48,11 @@ tests:
     topic: /cabot/activity_log
     topic_type: cabot_msgs/msg/Log
     condition: "msg.category=='cabot/navigation' and msg.text=='completed'"
-    timeout: 60
+- name: delete an actor
+  action:
+    type: delete_actor
+    name: actor1
 - comment: return to the initial position
 - name: go to initial position
   action:
     type: reset_position
-    timeout: 90
