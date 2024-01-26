@@ -18,6 +18,7 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 
+ament_python_install_package(${PROJECT_NAME})
 
 install(DIRECTORY config/ DESTINATION share/${PROJECT_NAME}/config/)
 install(DIRECTORY maps/ DESTINATION share/${PROJECT_NAME}/maps/)
