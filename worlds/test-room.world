@@ -31,27 +31,9 @@
             <interpolate_x>true</interpolate_x>
         </animation>
         <plugin name="pedestrian_plugin1" filename="libpedestrian_plugin.so">
-          <module>pedestrian</module>
+          <module>pedestrian.walk_straight</module>
           <robot>mobile_base</robot>
           <velocity type="float">1.0</velocity>
-          <behavior type="str">straight</behavior>
-          <max_dist type="int">10</max_dist>
-          <loop type="bool">True</loop>
-        </plugin>
-    </actor>
-    <actor name="walking_actor2">
-        <pose>3 3 0.0 0 0 0</pose>
-        <skin>
-            <filename>walk.dae</filename>
-            <scale>1.0</scale>
-        </skin>
-        <animation name="walking">
-            <filename>walk.dae</filename>
-            <scale>1.0</scale>
-            <interpolate_x>true</interpolate_x>
-        </animation>
-        <plugin name="pedestrian_plugin2" filename="libpedestrian_plugin.so">
-          <module>pedestrian</module>
         </plugin>
     </actor>
     -->

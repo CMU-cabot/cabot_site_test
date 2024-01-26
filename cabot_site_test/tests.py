@@ -1,3 +1,5 @@
+import random
+
 def config(tester):
     tester.config['init_x'] = 0.0
     tester.config['init_y'] = 0.0
@@ -29,20 +31,54 @@ def _goto_target1(tester):
         condition="msg.category=='cabot/navigation' and msg.text=='completed'"
     )
 
-def test0_multiple_actors(tester):
+def test0(tester):
+    tester.reset_position()
+    for i in range(0, 30):
+        bound = 5
+        tester.spawn_actor(
+            name=f"actor{i}",
+            x=random.randint(-bound, bound),
+            y=random.randint(-bound, bound),
+            a=random.randint(-180, 180),
+            module="pedestrian.walk_sfm",
+            params={
+                'velocity': 1.0
+            }
+        )
+    #tester.wait(seconds=5)
+    #tester.delete_actor(
+    #    name=f"actor3",
+    #)
+
+
+def test3_multiple_actors(tester):
+    tester.reset_position()
     tester.spawn_actor(
-        name='actor3',
+        name=f"actor3",
         x=5.0,
-        y=0.0,
-        a=180.0,
+        y=5.0,
+        a=-90.0,
         module="pedestrian.walk_across",
         params={
-            'velocity': 0.1
+            'velocity': 0.95
+        }
+    )
+    tester.spawn_actor(
+        name=f"actor4",
+        x=8.0,
+        y=8.0,
+        a=-90.0,
+        module="pedestrian.walk_across",
+        params={
+            'velocity': 0.95
         }
     )
     _goto_target1(tester)
     tester.delete_actor(
-        name='actor3'
+        name=f"actor3",
+    )
+    tester.delete_actor(
+        name=f"actor4",
     )
 
 def test1_move_towards_a_pedestrian(tester):
