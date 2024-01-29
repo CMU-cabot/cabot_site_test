@@ -28,12 +28,12 @@ def _goto_target1(tester):
     tester.wait_topic(
         topic="/cabot/activity_log",
         topic_type="cabot_msgs/msg/Log",
-        condition="msg.category=='cabot/navigation' and msg.text=='completed'"
+        condition="msg.category=='cabot/navigation' and msg.text=='completed'",
+        timeout=120
     )
 
 def test0(tester):
-    tester.reset_position()
-    for i in range(0, 30):
+    for i in range(0, 10):
         bound = 5
         tester.spawn_actor(
             name=f"actor{i}",
@@ -45,10 +45,36 @@ def test0(tester):
                 'velocity': 1.0
             }
         )
-    #tester.wait(seconds=5)
-    #tester.delete_actor(
-    #    name=f"actor3",
-    #)
+    tester.wait(seconds=10)
+
+
+def test1(tester):
+    tester.reuse_actor(
+        plugins=[
+            {
+                "name": "actor2",
+                "module": "pedestrian.walk_straight",
+                "params": {
+                    "init_x": 10.0,
+                    "init_y": 10.0,
+                    "init_a": 0.0,
+                }
+            },
+            {
+                "name": "actor3",
+                "module": "pedestrian.walk_straight",
+                "params": {
+                    "init_x": 10.0,
+                    "init_y": 10.0,
+                    "init_a": 90.0,
+                }
+            },
+        ]
+    )
+
+    #for i in range(0, 10):
+    #    tester.reset_position(x=-6)
+    #    _goto_target1(tester)
 
 
 def test3_multiple_actors(tester):
