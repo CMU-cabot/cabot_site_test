@@ -35,6 +35,7 @@ def _goto_target1(tester):
 
 
 def test1_move_towards_a_pedestrian(tester):
+    tester.check_collision()
     tester.reset_position()
     tester.setup_actors(actors=[
         {
@@ -52,6 +53,7 @@ def test1_move_towards_a_pedestrian(tester):
 
 
 def test2_move_across_a_pedestrian(tester):
+    tester.check_collision()
     tester.reset_position()
     tester.setup_actors(actors=[
         {
@@ -69,6 +71,7 @@ def test2_move_across_a_pedestrian(tester):
 
 
 def test0_sfm_actors(tester):
+    tester.check_collision()
     bound = 5.0
     actors = []
     for i in range(0, 10):
