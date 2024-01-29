@@ -35,6 +35,7 @@ def _goto_target1(tester):
 
 
 def test1_move_towards_a_pedestrian(tester):
+    tester.reset_position()
     tester.setup_actors(actors=[
         {
             "name": 'actor0',
@@ -47,11 +48,11 @@ def test1_move_towards_a_pedestrian(tester):
             },
         },
     ])
-    tester.reset_position()
     _goto_target1(tester)
 
 
 def test2_move_across_a_pedestrian(tester):
+    tester.reset_position()
     tester.setup_actors(actors=[
         {
             "name": 'actor0',
@@ -64,7 +65,6 @@ def test2_move_across_a_pedestrian(tester):
             },
         },
     ])
-    tester.reset_position()
     _goto_target1(tester)
 
 
@@ -82,6 +82,6 @@ def test0_sfm_actors(tester):
                 "velocity": 1.0,
             },
         })
-    tester.setup_actors(actors=actors)
     tester.reset_position(x=-6.0)
+    tester.setup_actors(actors=actors)
     _goto_target1(tester)
