@@ -1,5 +1,6 @@
 import random
 
+
 def config(tester):
     tester.config['init_x'] = 0.0
     tester.config['init_y'] = 0.0
@@ -32,112 +33,55 @@ def _goto_target1(tester):
         timeout=120
     )
 
-def test0(tester):
-    for i in range(0, 10):
-        bound = 5
-        tester.spawn_actor(
-            name=f"actor{i}",
-            x=random.randint(-bound, bound),
-            y=random.randint(-bound, bound),
-            a=random.randint(-180, 180),
-            module="pedestrian.walk_sfm",
-            params={
-                'velocity': 1.0
-            }
-        )
-    tester.wait(seconds=10)
-
-
-def test1(tester):
-    tester.reuse_actor(
-        plugins=[
-            {
-                "name": "actor2",
-                "module": "pedestrian.walk_straight",
-                "params": {
-                    "init_x": 10.0,
-                    "init_y": 10.0,
-                    "init_a": 0.0,
-                }
-            },
-            {
-                "name": "actor3",
-                "module": "pedestrian.walk_straight",
-                "params": {
-                    "init_x": 10.0,
-                    "init_y": 10.0,
-                    "init_a": 90.0,
-                }
-            },
-        ]
-    )
-
-    #for i in range(0, 10):
-    #    tester.reset_position(x=-6)
-    #    _goto_target1(tester)
-
-
-def test3_multiple_actors(tester):
-    tester.reset_position()
-    tester.spawn_actor(
-        name=f"actor3",
-        x=5.0,
-        y=5.0,
-        a=-90.0,
-        module="pedestrian.walk_across",
-        params={
-            'velocity': 0.95
-        }
-    )
-    tester.spawn_actor(
-        name=f"actor4",
-        x=8.0,
-        y=8.0,
-        a=-90.0,
-        module="pedestrian.walk_across",
-        params={
-            'velocity': 0.95
-        }
-    )
-    _goto_target1(tester)
-    tester.delete_actor(
-        name=f"actor3",
-    )
-    tester.delete_actor(
-        name=f"actor4",
-    )
 
 def test1_move_towards_a_pedestrian(tester):
+    tester.setup_actors(actors=[
+        {
+            "name": 'actor0',
+            "module": "pedestrian.walk_straight",
+            "params": {
+                "init_x": 5.0,
+                "init_y": 0.0,
+                "init_a": 180.0,
+                "velocity": 0.5,
+            },
+        },
+    ])
     tester.reset_position()
-    tester.spawn_actor(
-        name='actor1',
-        x=5.0,
-        y=0.0,
-        a=180.0,
-        module="pedestrian.walk_straight",
-        params={
-            'velocity': 0.5
-        }
-    )
     _goto_target1(tester)
-    tester.delete_actor(
-        name='actor1'
-    )
 
 
 def test2_move_across_a_pedestrian(tester):
+    tester.setup_actors(actors=[
+        {
+            "name": 'actor0',
+            "module": "pedestrian.walk_across",
+            "params": {
+                "init_x": 5.0,
+                "init_y": 5.0,
+                "init_a": -90.0,
+                "velocity": 0.95,
+            },
+        },
+    ])
     tester.reset_position()
-    tester.spawn_actor(
-        name='actor2',
-        x=5.0,
-        y=5.0,
-        a=-90.0,
-        module="pedestrian.walk_across",
-        params={
-            'velocity': 0.95
-        }
-    )
     _goto_target1(tester)
-    tester.delete_actor(
-        name='actor2'
-    )
+
+
+def test0_sfm_actors(tester):
+    bound = 5.0
+    actors = []
+    for i in range(0, 10):
+        actors.append({
+            "name": f"actor{i}",
+            "module": "pedestrian.walk_sfm",
+            "params": {
+                "init_x": random.uniform(-bound, bound),
+                "init_y": random.uniform(-bound, bound),
+                "init_a": random.uniform(-180.0, 180.0),
+                "velocity": 1.0,
+            },
+        })
+    tester.setup_actors(actors=actors)
+    tester.reset_position(x=-6.0)
+    _goto_target1(tester)
